@@ -1,21 +1,28 @@
-import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
-// const BASE_REMOTE_URL = '/goit-react-hw-05-movies';
-// const BASE_REMOTE_URL = '/goit-react-hw-05-movies';
+import { List, Item, LinkItem } from './FilmList.styled';
 
 export function FilmList({ filmList }) {
-  // const location = useLocation();
-  // console.log(location);
+  const location = useLocation();
+
   return (
-    <ul>
+    <List>
       {filmList &&
         filmList.map(({ id, title, name }) => (
-          <li key={id}>
-            <Link to={`movies/${id}`}>{title ?? name}</Link>
-          </li>
+          <Item key={id}>
+            <LinkItem
+              to={`/movies/${id}`}
+              state={
+                location.search
+                  ? location.pathname + location.search
+                  : location.pathname
+              }
+            >
+              {title ?? name}
+            </LinkItem>
+          </Item>
         ))}
-    </ul>
+    </List>
   );
 }
 

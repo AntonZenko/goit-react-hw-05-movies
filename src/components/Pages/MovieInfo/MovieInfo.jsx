@@ -1,24 +1,29 @@
-import { getMovieDetail } from '../../fetchService/fetchService';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { MovieDetails } from './MovieDetails/MovieDetails';
+import { useParams, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { getMovieDetail } from '../../services/fetchService';
+import { MovieCard } from './MovieCard/MovieCard';
+
+import { Container } from '../../Container/Container';
+import {
+  Wrapper,
+  Button,
+  InfoLink,
+  InfoTitle,
+  InfoList,
+  InfoItem,
+} from './MovieInfo.styled';
 
 const MovieInfo = () => {
-  const [movieDetails, setMovieDetails] = useState({});
+  const location = useLocation();
+  const navigate = useNavigate();
   const { id } = useParams();
-
-  // useEffect(() => {
-  //   getMovieDetail(id).then(res => {
-  //     console.log(res);
-  //     setMovieDetails(res);
-  //   });
-  // }, [id]);
-
+  const [movieCard, setMovieCard] = useState({});
+  const [goBack, setGoBack] = useState('');
   useEffect(() => {
     const getMovie = async () => {
       try {
         const res = await getMovieDetail(id);
-        setMovieDetails(prevProps => res);
+        setMovieCard(prevProps => res);
       } catch (error) {
         console.log(error);
       }
@@ -26,11 +31,40 @@ const MovieInfo = () => {
     getMovie();
   }, [id]);
 
+  const locationState = location.state;
+  useEffect(() => {
+    if (!locationState) {
+      return;
+    }
+    setGoBack(locationState);
+  }, [locationState]);
+
   return (
-    <div>
-      <h2>CurrentMovie</h2>
-      <MovieDetails movieInfo={movieDetails} />
-    </div>
+    <Container>
+      <Button
+        type="button"
+        onClick={() => {
+          navigate(goBack, { replace: true });
+        }}
+      >
+        Go back
+      </Button>
+      <Wrapper>
+        <MovieCard movieInfo={movieCard} />
+      </Wrapper>
+      <Wrapper>
+        <InfoTitle>Additional Info</InfoTitle>
+        <InfoList>
+          <InfoItem>
+            <InfoLink to="cast">Cast</InfoLink>
+          </InfoItem>
+          <InfoItem>
+            <InfoLink to="reviews">Reviews</InfoLink>
+          </InfoItem>
+        </InfoList>
+      </Wrapper>
+      <Outlet />
+    </Container>
   );
 };
 

@@ -1,18 +1,27 @@
 import { useState, useEffect } from 'react';
-// import { Link } from 'react-router-dom';
 import { FilmList } from '../FilmList/Filmlist';
-import { getTrending } from '../../fetchService/fetchService';
+import { getTrending } from '../../services/fetchService';
+import { Container } from '../../Container/Container';
+import PageTitle from '../../PageTitle/PageTitle';
 
 const HomePage = () => {
   const [trendings, setTrendings] = useState([]);
   useEffect(() => {
-    getTrending().then(setTrendings);
-  }, []);
+    const getMovies = async () => {
+      try {
+        const res = await getTrending();
+        setTrendings(prevProps => res);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getMovies();
+  }, [setTrendings]);
   return (
-    <div>
-      <h2>Trendings today</h2>
+    <Container>
+      <PageTitle>Tranding today</PageTitle>
       <FilmList filmList={trendings} />
-    </div>
+    </Container>
   );
 };
 

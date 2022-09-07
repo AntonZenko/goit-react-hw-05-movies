@@ -1,6 +1,14 @@
 import PropTypes from 'prop-types';
-export function MovieDetails({ movieInfo }) {
-  console.log(movieInfo);
+import {
+  MovieBox,
+  Description,
+  MovieTitle,
+  Text,
+  Info,
+  Genres,
+} from './MovieCard.styled';
+
+export function MovieCard({ movieInfo }) {
   const {
     poster_path,
     title,
@@ -12,32 +20,32 @@ export function MovieDetails({ movieInfo }) {
   } = movieInfo;
 
   return (
-    <div>
+    <MovieBox>
       <img
         src={`https://image.tmdb.org/t/p/w500${poster_path}`}
         alt="film poster"
         height="300px"
       />
-      <div>
-        <h2>
+      <Description>
+        <MovieTitle>
           {title ?? name} ({new Date(release_date).getFullYear()})
-        </h2>
-        <p>User Score: {Math.round(vote_average * 10)}%</p>
-        <h3>Overview</h3>
+        </MovieTitle>
+        <Text>User Score: {Math.round(vote_average * 10)}%</Text>
+        <Info>Overview</Info>
         {overview ? (
-          <p>{overview}</p>
+          <Text>{overview}</Text>
         ) : (
-          <p>We don't have overview for this movie</p>
+          <Text>We don't have overview for this movie</Text>
         )}
 
-        <h3>Genres</h3>
-        <p>{genres && genres.map(genre => ` ${genre.name}`)}</p>
-      </div>
-    </div>
+        <Genres>Genres</Genres>
+        <Text>{genres && genres.map(genre => ` ${genre.name}`)}</Text>
+      </Description>
+    </MovieBox>
   );
 }
 
-MovieDetails.propTypes = {
+MovieCard.propTypes = {
   movieInfo: PropTypes.shape({
     poster_path: PropTypes.string,
     title: PropTypes.string,
@@ -50,6 +58,6 @@ MovieDetails.propTypes = {
         id: PropTypes.number,
         name: PropTypes.string,
       })
-    ).isRequired,
+    ),
   }).isRequired,
 };
