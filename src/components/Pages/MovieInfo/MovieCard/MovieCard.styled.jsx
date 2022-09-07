@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const MovieBox = styled.div`
+  margin-top: 20px;
   display: flex;
 `;
 export const Description = styled.div`

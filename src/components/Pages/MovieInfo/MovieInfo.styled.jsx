@@ -22,9 +22,8 @@ export const Button = styled.button`
 export const InfoLink = styled(NavLink)`
   padding: 5px 10px;
   text-decoration: none;
-  font-size: 16px;
   font-weight: 500;
-  line-height: 1.5;
+  font-size: 16px;
   color: #303030;
   border-radius: 5px;
   background-color: #c2c2c2;

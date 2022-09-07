@@ -49,9 +49,10 @@ const MovieInfo = () => {
       >
         Go back
       </Button>
-      <Wrapper>
+      {movieCard && <MovieCard movieInfo={movieCard} />}
+      {/* <Wrapper>
         <MovieCard movieInfo={movieCard} />
-      </Wrapper>
+      </Wrapper> */}
       <Wrapper>
         <InfoTitle>Additional Info</InfoTitle>
         <InfoList>
